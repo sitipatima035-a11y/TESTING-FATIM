@@ -1,0 +1,125 @@
+<!doctype html>
+
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Halaman Lucu — Senyum Otomatis 😄</title>
+  <link rel="stylesheet" href="style/style.css" />
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <h1>Hai, aku WebPanda Lucu 🐼</h1>
+      <p class="lead">Klik wajahnya untuk lihat reaksi. Tombol di sebelah buat bikin kata-kata konyol muncul.</p><div class="stage">
+    <div class="face" id="face" role="button" tabindex="0" title="Klik aku!">
+      <div class="eye left"></div>
+      <div class="eye right"></div>
+      <div class="blush left"></div>
+      <div class="blush right"></div>
+      <div class="mouth"></div>
+      <div class="bubble" id="bubble">Halo! Aku lapar... makan cookie, atau bercanda?</div>
+    </div>
+
+    <div class="side">
+      <button class="btn btn-pink" id="btnFunny">Buat Aku Lucu!</button>
+      <button class="btn btn-soft" id="btnMood">Ganti Mood</button>
+      <div class="note" id="note">Status: Siap bercanda. Tekan tombol "Buat Aku Lucu!".</div>
+    </div>
+  </div>
+
+  <div class="confetti" id="confetti">
+    <!-- generated confetti pieces -->
+  </div>
+
+  <footer>Made with a little HTML, a pinch of CSS, and a lot of 😜</footer>
+</div>
+
+<div class="card">
+  <h2>Instruksi Singkat</h2>
+  <p class="lead">- Klik wajah untuk membuatnya "ngomong" (mulut membesar).<br>- Tekan "Buat Aku Lucu!" untuk random joke.<br>- Tekan "Ganti Mood" untuk toggle antara senyum dan sedih.</p>
+
+  <div style="margin-top:12px">
+    <strong>Contoh jokes:</strong>
+    <ul style="margin:8px 0 0 18px;padding:0;color:var(--muted)">
+      <li>Kenapa kucing bawa kompas? Karena dia mau nge-meow-navigasi.</li>
+      <li>Apa kata bola pada sepatu? "Jangan injak perasaanku!"</li>
+      <li>Kopi: "Kapan kita ngopi?" Gelas: "Sekarang!"</li>
+    </ul>
+  </div>
+</div>
+
+  </div>  <script>
+    const face = document.getElementById('face');
+    const bubble = document.getElementById('bubble');
+    const btnFunny = document.getElementById('btnFunny');
+    const btnMood = document.getElementById('btnMood');
+    const note = document.getElementById('note');
+    const confetti = document.getElementById('confetti');
+
+    const jokes = [
+      'Kenapa komputer gak bisa diet? Karena selalu ngemil byte! 🍪',
+      'Aku ingin jadi keyboard — biar selalu dekat dengan "enter" hati kamu.',
+      'Hantu pakai internet? Iya, pakai boo-tcamp. 👻',
+      'Kenapa burung gak ikut lomba? Soalnya takut podiumnya ada di pohon.',
+    ];
+
+    // make confetti pieces
+    function makeConfetti(){
+      confetti.innerHTML='';
+      const colors = ['#FF6B6B','#FFD66B','#6BFFB8','#6BA7FF','#C56BFF'];
+      for(let i=0;i<18;i++){
+        const s = document.createElement('span');
+        s.style.left = Math.random()*100 + '%';
+        s.style.top = Math.random()*20 + '%';
+        s.style.background = colors[Math.floor(Math.random()*colors.length)];
+        s.style.transform = 'rotate('+Math.random()*360+'deg)';
+        s.style.animationDelay = (Math.random()*1000) + 'ms';
+        s.style.opacity = Math.random();
+        confetti.appendChild(s);
+      }
+    }
+
+    face.addEventListener('click', ()=>{
+      face.classList.toggle('talk');
+      if(face.classList.contains('talk')){
+        bubble.innerText = 'Wah... aku lagi cerita lelucon nih!';
+        note.innerText = 'Status: Ngomong (mulut membesar)';
+      } else {
+        bubble.innerText = 'Hening... aku mengunyah ide.';
+        note.innerText = 'Status: Tenang';
+      }
+    });
+
+    btnFunny.addEventListener('click', ()=>{
+      const pick = jokes[Math.floor(Math.random()*jokes.length)];
+      bubble.innerText = pick;
+      makeConfetti();
+      note.innerText = 'Status: Bercanda — ' + pick.slice(0,28) + '...';
+      // auto stop confetti after 3s
+      setTimeout(()=>{confetti.innerHTML='';},3000);
+    });
+
+    btnMood.addEventListener('click', ()=>{
+      face.classList.toggle('sad');
+      if(face.classList.contains('sad')){
+        bubble.innerText = 'Aduh, aku lagi melankolis. 🥺';
+        note.innerText = 'Status: Sedih';
+      } else {
+        bubble.innerText = 'Yay! Senyum lagi 😄';
+        note.innerText = 'Status: Bahagia';
+      }
+    });
+
+    // keyboard accessibility: press space or enter to toggle talk
+    face.addEventListener('keydown', (e)=>{
+      if(e.key === ' ' || e.key === 'Enter'){
+        e.preventDefault();
+        face.click();
+      }
+    });
+
+    // init
+    bubble.innerText = 'Halo! Klik wajahku untuk reaksi.';
+  </script></body>
+</html>
